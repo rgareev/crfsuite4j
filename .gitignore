@@ -1,0 +1,15 @@
+.settings/
+.project
+.classpath
+/target/
+/commit.txt
+/logs/
+/wrk/
+/effective-pom.xml
+/effective-settings.xml
+.cache
+.idea/
+*.iml
+*.log
+*.lck
+/test.model

@@ -12,6 +12,18 @@ import java.util.List;
  */
 public class CrfSuiteTrainer {
 
+	// models
+	public static final String MODEL_CRF1D = "crf1d";
+	// algorithms
+	public static final String ALG_LBFGS = "lbfgs";
+	// model parameters
+	public static final String MODEL_PARAM_FEATURE_MINFREQ = "feature.minfreq";
+	public static final String MODEL_PARAM_POSSIBLE_STATES = "feature.possible_states";
+	public static final String MODEL_PARAM_POSSIBLE_TRANSITIONS = "feature.possible_transitions";
+	// algorithm parameters
+	public static final String ALG_PARAM_MAX_ITERATIONS = "max_iterations";
+	public static final String ALG_PARAM_DELTA = "delta";
+
 	static {
 		System.loadLibrary("crfsuite-jni");
 	}
@@ -51,23 +63,35 @@ public class CrfSuiteTrainer {
 		}
 	}
 
-	public native int train(String modelFile, int holdout);
+	public void trainWithoutHoldout(String modelFile) {
+		train(modelFile, -1);
+	}
+
+	public void train(String modelFile, int holdout) {
+		int status = doTrain(modelFile, holdout);
+		if (status != 0) {
+			throw new IllegalStateException(String.format(
+					"crfsuite Trainer returned status code '%s'", status));
+		}
+	}
 
 	public List<String> getParams() {
 		return Arrays.asList(params());
 	}
 
-	private native String[] params();
+	public native String[] params();
 
-	private native void set(String name, String val);
+	public native void set(String name, String val);
 
-	private native String get(String name);
+	public native String get(String name);
 
-	private native String help(String name);
+	public native String help(String name);
 
 	private native void init();
 
 	private native boolean doSelect(String alg, String gmType);
+
+	private native int doTrain(String modelFile, int holdout);
 
 	private void message(String msg) {
 		// TODO

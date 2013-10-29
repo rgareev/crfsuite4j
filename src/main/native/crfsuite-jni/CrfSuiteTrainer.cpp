@@ -95,7 +95,7 @@ JNIEXPORT jboolean JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_doS
 	return tr->select(alg, modelType);
 }
 
-JNIEXPORT jint JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_train(JNIEnv *env, jobject obj, jstring jModelFile, jint holdout){
+JNIEXPORT jint JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_doTrain(JNIEnv *env, jobject obj, jstring jModelFile, jint holdout){
 	Trainer *tr = getHandle<Trainer>(env, obj);
 	std::string modelFile = toStdString(env, jModelFile);
 	return tr->train(modelFile, holdout);

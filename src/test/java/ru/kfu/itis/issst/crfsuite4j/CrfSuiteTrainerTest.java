@@ -18,6 +18,9 @@ public class CrfSuiteTrainerTest {
 	@Test
 	public void test() {
 		CrfSuiteTrainer trainer = new CrfSuiteTrainer();
+		trainer.select(CrfSuiteTrainer.ALG_LBFGS, CrfSuiteTrainer.MODEL_CRF1D);
+		trainer.set(CrfSuiteTrainer.MODEL_PARAM_FEATURE_MINFREQ, "1");
+		trainer.set(CrfSuiteTrainer.ALG_PARAM_MAX_ITERATIONS, "20");
 		{
 			List<List<Attribute>> itemSeq = new LinkedList<List<Attribute>>();
 			List<String> labelSeq = new LinkedList<String>();
@@ -51,7 +54,6 @@ public class CrfSuiteTrainerTest {
 			labelSeq.add("C");
 			trainer.append(itemSeq, labelSeq, 0);
 		}
-		trainer.select("lbfgs", "crf1d");
 		trainer.train("test.model", -1);
 		trainer.dispose();
 	}

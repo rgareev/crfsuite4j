@@ -25,14 +25,6 @@ JNIEXPORT void JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_append
 
 /*
  * Class:     ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer
- * Method:    train
- * Signature: (Ljava/lang/String;I)I
- */
-JNIEXPORT jint JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_train
-  (JNIEnv *, jobject, jstring, jint);
-
-/*
- * Class:     ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer
  * Method:    params
  * Signature: ()[Ljava/lang/String;
  */
@@ -78,6 +70,14 @@ JNIEXPORT void JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_init
  */
 JNIEXPORT jboolean JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_doSelect
   (JNIEnv *, jobject, jstring, jstring);
+
+/*
+ * Class:     ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer
+ * Method:    doTrain
+ * Signature: (Ljava/lang/String;I)I
+ */
+JNIEXPORT jint JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_doTrain
+  (JNIEnv *, jobject, jstring, jint);
 
 #ifdef __cplusplus
 }

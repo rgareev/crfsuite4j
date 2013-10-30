@@ -3,6 +3,10 @@
  */
 package ru.kfu.itis.issst.crfsuite4j;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,5 +60,20 @@ public class CrfSuiteTrainerTest {
 		}
 		trainer.train("test.model", -1);
 		trainer.dispose();
+		// load tagger
+		CrfSuiteTagger tagger = new CrfSuiteTagger(new File("test.model"));
+		{
+			List<List<Attribute>> itemSeq = new LinkedList<List<Attribute>>();
+			itemSeq.add(Arrays.asList(
+					new Attribute("11"), new Attribute("3")));
+			itemSeq.add(Arrays.asList(
+					new Attribute("101"), new Attribute("102")));
+			itemSeq.add(Arrays.asList(
+					new Attribute("2"), new Attribute("12")));
+			List<String> labelSeq = tagger.tag(itemSeq);
+			assertNotNull(labelSeq);
+			assertTrue(labelSeq.size() == 3);
+		}
+		tagger.dispose();
 	}
 }

@@ -1,5 +1,6 @@
 #include <crfsuite_api.hpp>
 #include "commons.h"
+#include "attributes.h"
 #include "ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer.h"
 
 using namespace CRFSuite;
@@ -59,22 +60,7 @@ JNIEXPORT void JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_dispose
 JNIEXPORT void JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_append(JNIEnv *env, jobject obj, jobjectArray _itemSeq, jobjectArray _labelSeq, jint group){
 	Trainer *tr = getHandle<Trainer>(env, obj);
 	// convert _itemSeq
-	jsize itemNum = env->GetArrayLength(_itemSeq);
-	ItemSequence itemSeq;
-	for(int i=0; i<itemNum; i++) {
-		Item item;
-		jobject _attrSeqObj = env->GetObjectArrayElement(_itemSeq, i);
-		jobjectArray _attrSeq = static_cast<jobjectArray>(_attrSeqObj);
-		jsize attrNum = env->GetArrayLength(_attrSeq);
-		for(int a=0; a<attrNum; a++) {
-			jobject jAttr = env->GetObjectArrayElement(_attrSeq, a);
-			std::string attrName = getAttributeName(env, jAttr);
-			Attribute attr(attrName);
-			// delete attrName;
-			item.push_back(attr);
-		}
-		itemSeq.push_back(item);
-	}
+	ItemSequence itemSeq = toItemSequence(env, _itemSeq);
 	// convert _labelSeq
 	jsize labelNum = env->GetArrayLength(_labelSeq);
 	StringList labelSeq;
@@ -92,7 +78,7 @@ JNIEXPORT jboolean JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_doS
 	Trainer *tr = getHandle<Trainer>(env, obj);
 	std::string alg = toStdString(env, jAlg);
 	std::string modelType = toStdString(env, jType);
-	return tr->select(alg, modelType);
+	return tr->select(alg, modelType) ? JNI_TRUE : JNI_FALSE;
 }
 
 JNIEXPORT jint JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTrainer_doTrain(JNIEnv *env, jobject obj, jstring jModelFile, jint holdout){

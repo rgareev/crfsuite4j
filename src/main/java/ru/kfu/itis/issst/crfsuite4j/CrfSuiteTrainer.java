@@ -3,6 +3,8 @@
  */
 package ru.kfu.itis.issst.crfsuite4j;
 
+import static ru.kfu.itis.issst.crfsuite4j.PUtil.toAttribute2dArray;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class CrfSuiteTrainer {
 	public static final String ALG_PARAM_DELTA = "delta";
 
 	static {
-		System.loadLibrary("crfsuite-jni");
+		NativeLibrary.load();
 	}
 
 	private long nativeHandle;
@@ -37,18 +39,7 @@ public class CrfSuiteTrainer {
 	public native void dispose();
 
 	public void append(List<List<Attribute>> itemSeq, List<String> labelSeq, int group) {
-		Attribute[][] itemSeqArr = new Attribute[itemSeq.size()][];
-		int i = 0;
-		for (List<Attribute> item : itemSeq) {
-			Attribute[] itemArr = new Attribute[item.size()];
-			int j = 0;
-			for (Attribute attr : item) {
-				itemArr[j] = attr;
-				j++;
-			}
-			itemSeqArr[i] = itemArr;
-			i++;
-		}
+		Attribute[][] itemSeqArr = toAttribute2dArray(itemSeq);
 		String[] labelSeqArr = labelSeq.toArray(new String[labelSeq.size()]);
 		append(itemSeqArr, labelSeqArr, group);
 	}

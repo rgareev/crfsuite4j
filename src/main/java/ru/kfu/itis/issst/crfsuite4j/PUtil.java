@@ -15,12 +15,7 @@ public class PUtil {
 		Attribute[][] itemSeqArr = new Attribute[itemSeq.size()][];
 		int i = 0;
 		for (List<Attribute> item : itemSeq) {
-			Attribute[] itemArr = new Attribute[item.size()];
-			int j = 0;
-			for (Attribute attr : item) {
-				itemArr[j] = attr;
-				j++;
-			}
+			Attribute[] itemArr = item.toArray(new Attribute[item.size()]);
 			itemSeqArr[i] = itemArr;
 			i++;
 		}

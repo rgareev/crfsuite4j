@@ -27,7 +27,12 @@ public class CrfSuiteTagger {
 					"Model file %s does not exist", modelFile));
 		}
 		init();
-		open(modelFile.getPath());
+		try {
+			open(modelFile.getPath());
+		} catch (Exception e) {
+			dispose();
+			throw new RuntimeException(e);
+		}
 	}
 
 	public native void dispose();

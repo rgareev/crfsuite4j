@@ -1,3 +1,4 @@
+#include <cstdarg>
 #include <crfsuite_api.hpp>
 #include "commons.h"
 #include "attributes.h"
@@ -27,7 +28,7 @@ public:
 			attached = true;
 		} else if(getEnvStat == JNI_OK) {
 			// OK
-		} else if(getEnvStat = JNI_EVERSION) {
+		} else if(getEnvStat == JNI_EVERSION) {
 			printf("GetEnv: JNI version 1.6 is not supported\n");
 			return;
 		}

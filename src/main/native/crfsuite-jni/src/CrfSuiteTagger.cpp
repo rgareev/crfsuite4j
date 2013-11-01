@@ -1,3 +1,4 @@
+#include <cstdarg>
 #include <crfsuite_api.hpp>
 #include "commons.h"
 #include "attributes.h"
@@ -25,8 +26,8 @@ JNIEXPORT jboolean JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTagger_doOp
 
 JNIEXPORT jobjectArray JNICALL Java_ru_kfu_itis_issst_crfsuite4j_CrfSuiteTagger_doTag(JNIEnv *env, jobject obj, jobjectArray jItemArr){
 	Tagger *tagger = getHandle<Tagger>(env, obj);
-	ItemSequence &itemSeq = toItemSequence(env, jItemArr);
-	StringList& labels = tagger->tag(itemSeq);
+	ItemSequence itemSeq = toItemSequence(env, jItemArr);
+	StringList labels = tagger->tag(itemSeq);
 	// TODO handle C++ exceptions and send them to Java
 	return toJavaStringArray(env, labels);
 }

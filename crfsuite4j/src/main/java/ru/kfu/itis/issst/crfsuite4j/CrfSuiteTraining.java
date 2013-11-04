@@ -28,6 +28,7 @@ public class CrfSuiteTraining {
 	private File modelFile;
 	private String trainingAlgorithm;
 	private Map<String, String> params = new HashMap<String, String>();
+	private Reader trainingDataReader;
 
 	public File getModelFile() {
 		return modelFile;
@@ -73,6 +74,19 @@ public class CrfSuiteTraining {
 		this.params = params;
 	}
 
+	public Reader getTrainingDataReader() {
+		return trainingDataReader;
+	}
+
+	/**
+	 * @param trainingDataReader
+	 *            a training data containing sequence instances formatted
+	 *            according to crfsuite CLI front-end
+	 */
+	public void setTrainingDataReader(Reader trainingDataReader) {
+		this.trainingDataReader = trainingDataReader;
+	}
+
 	private void validateConfig() {
 		if (modelFile == null) {
 			throw new NullPointerException("modelFile");
@@ -80,16 +94,12 @@ public class CrfSuiteTraining {
 		if (trainingAlgorithm == null) {
 			throw new NullPointerException("trainingAlgorithm");
 		}
+		if (trainingDataReader == null) {
+			throw new NullPointerException("trainingDataReader");
+		}
 	}
 
-	/**
-	 * 
-	 * @param trainingDataReader
-	 *            a training data containing sequence instances formatted
-	 *            according to crfsuite CLI front-end
-	 * @throws IOException
-	 */
-	public void run(Reader trainingDataReader) throws IOException {
+	public void run() throws IOException {
 		validateConfig();
 		BufferedReader inReader = trainingDataReader instanceof BufferedReader
 				? (BufferedReader) trainingDataReader

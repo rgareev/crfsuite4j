@@ -5,18 +5,14 @@ package ru.kfu.itis.issst.crfsuite4j;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.text.StrTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,32 +25,9 @@ public class CrfSuiteTraining {
 
 	private static final Logger log = LoggerFactory.getLogger(CrfSuiteTraining.class);
 
-	private File trainingDataFile;
-	private String trainingDataFileCharset;
 	private File modelFile;
 	private String trainingAlgorithm;
 	private Map<String, String> params = new HashMap<String, String>();
-
-	public File getTrainingDataFile() {
-		return trainingDataFile;
-	}
-
-	/**
-	 * @param trainingDataFile
-	 *            a training data file containing sequence instances formatted
-	 *            according to crfsuite CLI front-end
-	 */
-	public void setTrainingDataFile(File trainingDataFile) {
-		this.trainingDataFile = trainingDataFile;
-	}
-
-	public String getTrainingDataFileCharset() {
-		return trainingDataFileCharset;
-	}
-
-	public void setTrainingDataFileCharset(String trainingDataFileCharset) {
-		this.trainingDataFileCharset = trainingDataFileCharset;
-	}
 
 	public File getModelFile() {
 		return modelFile;
@@ -101,9 +74,6 @@ public class CrfSuiteTraining {
 	}
 
 	private void validateConfig() {
-		if (trainingDataFile == null) {
-			throw new NullPointerException("trainingDataFile");
-		}
 		if (modelFile == null) {
 			throw new NullPointerException("modelFile");
 		}
@@ -112,14 +82,18 @@ public class CrfSuiteTraining {
 		}
 	}
 
-	public void run() throws IOException {
+	/**
+	 * 
+	 * @param trainingDataReader
+	 *            a training data containing sequence instances formatted
+	 *            according to crfsuite CLI front-end
+	 * @throws IOException
+	 */
+	public void run(Reader trainingDataReader) throws IOException {
 		validateConfig();
-		if (trainingDataFileCharset == null) {
-			trainingDataFileCharset = Charset.defaultCharset().name();
-		}
-		FileInputStream inStream = FileUtils.openInputStream(trainingDataFile);
-		BufferedReader inReader = new BufferedReader(new InputStreamReader(
-				inStream, trainingDataFileCharset));
+		BufferedReader inReader = trainingDataReader instanceof BufferedReader
+				? (BufferedReader) trainingDataReader
+				: new BufferedReader(trainingDataReader);
 		// create trainer instance
 		CrfSuiteTrainer trainer = new CrfSuiteTrainer();
 		try {
@@ -130,7 +104,7 @@ public class CrfSuiteTraining {
 				trainer.set(paramName, paramVal);
 			}
 			// parse training data
-			log.info("Parsing training data from {}...", trainingDataFile);
+			log.info("Parsing training data...");
 			String line;
 			int lineNumber = 0;
 			List<List<Attribute>> items = newList();
@@ -179,7 +153,6 @@ public class CrfSuiteTraining {
 			trainer.trainWithoutHoldout(modelFile.getPath());
 		} finally {
 			trainer.dispose();
-			IOUtils.closeQuietly(inReader);
 		}
 	}
 

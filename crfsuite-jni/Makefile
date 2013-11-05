@@ -10,7 +10,8 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILD_DIR)/%,$(SOURCES:.cpp=.o))
 HEADERS := $(wildcard $(SRCDIR)/*.h)
 
 ${TARGET} : ${OBJECTS}
-	${CC} -shared ${CXXFLAGS} -Wl,-soname,${TARGET_SONAME} -o ${TARGET} ${OBJECTS}
+	mkdir -p bin
+	${CC} -shared ${CXXFLAGS} -Wl,-soname,${TARGET_SONAME} -o ${TARGET} ${OBJECTS} -l:libcrfsuite.a -l:libcqdb.a -l:liblbfgs.a
 # ${OBJECTS} : ${HEADERS}
 ${BUILD_DIR}/%.o : ${SRCDIR}/%.cpp ${HEADERS}
 	mkdir -p ${BUILD_DIR}

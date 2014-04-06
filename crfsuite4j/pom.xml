@@ -91,4 +91,8 @@
 			<name>CLL maven repository</name>
 		</snapshotRepository>
 	</distributionManagement>
+	
+	<scm>
+		<developerConnection>scm:git:https://github.com/rgareev/crfsuite4j.git</developerConnection>
+	</scm>
 </project>

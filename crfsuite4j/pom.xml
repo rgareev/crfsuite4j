@@ -46,6 +46,13 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
 			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<argLine>-Djava.library.path=${basedir}/../crfsuite-jni/bin</argLine>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

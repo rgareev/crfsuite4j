@@ -1,3 +1,8 @@
 language: java
 
-before_install: cd crfsuite4j
+before_install:
+  - ci-tools/install_lbfgs.sh
+  - ci-tools/install_crfsuite.sh
+  - export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+  - cd crfsuite-jni && make
+  - cd ../crfsuite4j

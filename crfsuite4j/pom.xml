@@ -88,12 +88,12 @@
 	<distributionManagement>
 		<repository>
 			<id>cll.artifactory</id>
-			<url>http://cll.niimm.ksu.ru:8080/artifactory/libs-releases-local</url>
+			<url>http://cll.niimm.ksu.ru:8080/artifactory/oss-libs-releases-local</url>
 			<name>CLL maven repository</name>
 		</repository>
 		<snapshotRepository>
 			<id>cll.artifactory</id>
-			<url>http://cll.niimm.ksu.ru:8080/artifactory/libs-snapshots-local</url>
+			<url>http://cll.niimm.ksu.ru:8080/artifactory/oss-libs-snapshots-local</url>
 			<name>CLL maven repository</name>
 		</snapshotRepository>
 	</distributionManagement>

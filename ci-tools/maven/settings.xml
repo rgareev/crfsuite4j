@@ -2,8 +2,8 @@
 	<servers>
 		<server>
 			<id>cll.artifactory</id>
-			<username>\${env.CLL_REPO_USER}</username>
-			<password>\${env.CLL_REPO_PASS}</password>
+			<username>${env.CLL_REPO_USER}</username>
+			<password>${env.CLL_REPO_PASS}</password>
 		</server>
 	</servers>
 </settings>

@@ -6,3 +6,6 @@ before_install:
   - export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
   - cd crfsuite-jni && make
   - cd ../crfsuite4j
+
+after_success:
+  - mvn deploy --settings ../ci-tools/maven/settings.xml -Dmaven.test.skip=true
